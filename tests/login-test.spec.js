@@ -134,7 +134,7 @@ test(" Continue shopping from cart", async ({ page }) => {
 
 
 
-test.only("Checking the cancel option", async ({ page }) => {
+test("Checking the cancel option", async ({ page }) => {
   await login(page);
 
   await page.locator("#add-to-cart-sauce-labs-backpack").click();
@@ -161,3 +161,41 @@ test.only("Checking the cancel option", async ({ page }) => {
 
 
 });
+
+test.only("Checkout: Error Handling", async ({ page }) => {
+  await login(page);
+
+  await page.locator("#add-to-cart-sauce-labs-backpack").click();
+  await page.locator("#add-to-cart-sauce-labs-bike-light").click();
+  await page.locator("#add-to-cart-sauce-labs-bolt-t-shirt").click();
+  await page.locator("#add-to-cart-sauce-labs-fleece-jacket").click();
+  await page.locator("#add-to-cart-sauce-labs-onesie").click();
+  await page
+    .locator('[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]')
+    .click();
+
+  await page.locator('[data-test="shopping-cart-link"]').click();
+
+  await page
+    .locator('[data-test="remove-test.allthethings()-t-shirt-(red)"]')
+    .click();
+  await page.locator('[data-test="remove-sauce-labs-bike-light"]').click();
+  await page.locator('[data-test="remove-sauce-labs-fleece-jacket"]').click();
+
+  await page.locator("#checkout").click();
+
+  await page.locator("#first-name").fill("");
+  await page.locator("#last-name").fill("");
+  await page.locator("#postal-code").fill("");
+  await page.locator("#continue").click();
+
+  await expect(page.locator(".error-message-container.error")).toHaveText('Error: First Name is required');
+  await page.locator('[data-test="error-button"]').click();
+
+  await page.locator("#first-name").fill("John");
+  await page.locator("#last-name").fill("Doe");
+  await page.locator("#postal-code").fill("12345");
+  await page.locator("#continue").click();
+
+
+  });
