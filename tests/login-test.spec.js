@@ -131,3 +131,33 @@ test(" Continue shopping from cart", async ({ page }) => {
 
   await expect(page.locator(".inventory_list")).toBeVisible();
 });
+
+
+
+test.only("Checking the cancel option", async ({ page }) => {
+  await login(page);
+
+  await page.locator("#add-to-cart-sauce-labs-backpack").click();
+  await page.locator("#add-to-cart-sauce-labs-bike-light").click();
+  await page.locator("#add-to-cart-sauce-labs-bolt-t-shirt").click();
+  await page.locator("#add-to-cart-sauce-labs-fleece-jacket").click();
+  await page.locator("#add-to-cart-sauce-labs-onesie").click();
+  await page
+    .locator('[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]')
+    .click();
+
+  await page.locator('[data-test="shopping-cart-link"]').click();
+
+  await page
+    .locator('[data-test="remove-test.allthethings()-t-shirt-(red)"]')
+    .click();
+  await page.locator('[data-test="remove-sauce-labs-bike-light"]').click();
+  await page.locator('[data-test="remove-sauce-labs-fleece-jacket"]').click();
+
+  await page.locator("#checkout").click();
+
+  await page.locator("#cancel").click();
+  await expect(page.locator(".cart_list")).toBeVisible();
+
+
+});
