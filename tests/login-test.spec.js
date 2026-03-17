@@ -73,7 +73,7 @@ test("inventory page: add to cart", async ({ page }) => {
 });
 
 test("inventory page: add to cart and remove", async ({ page }) => {
-await login(page);
+  await login(page);
 
   await page.locator("#add-to-cart-sauce-labs-backpack").click();
   await page.locator("#add-to-cart-sauce-labs-bike-light").click();
@@ -92,19 +92,42 @@ await login(page);
   await page.locator('[data-test="remove-sauce-labs-bike-light"]').click();
   await page.locator('[data-test="remove-sauce-labs-fleece-jacket"]').click();
 
-  await page.locator('#checkout').click();
+  await page.locator("#checkout").click();
 
-  await page.locator('#first-name').fill('John');
-  await page.locator('#last-name').fill('Doe');
-  await page.locator('#postal-code').fill('12345');
-  await page.locator('#continue').click();
+  await page.locator("#first-name").fill("John");
+  await page.locator("#last-name").fill("Doe");
+  await page.locator("#postal-code").fill("12345");
+  await page.locator("#continue").click();
 
-  await page.locator('#finish').click();
-  await expect(page.locator('.title')).toHaveText('Checkout: Complete!');
+  await page.locator("#finish").click();
+  await expect(page.locator(".title")).toHaveText("Checkout: Complete!");
 
-  await page.locator('#back-to-products').click();
+  await page.locator("#back-to-products").click();
 
-  await expect(page.locator('.inventory_list')).toBeVisible();
+  await expect(page.locator(".inventory_list")).toBeVisible();
+});
 
+test(" Continue shopping from cart", async ({ page }) => {
+  await login(page);
 
+  await page.locator("#add-to-cart-sauce-labs-backpack").click();
+  await page.locator("#add-to-cart-sauce-labs-bike-light").click();
+  await page.locator("#add-to-cart-sauce-labs-bolt-t-shirt").click();
+  await page.locator("#add-to-cart-sauce-labs-fleece-jacket").click();
+  await page.locator("#add-to-cart-sauce-labs-onesie").click();
+  await page
+    .locator('[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]')
+    .click();
+
+  await page.locator('[data-test="shopping-cart-link"]').click();
+
+  await page
+    .locator('[data-test="remove-test.allthethings()-t-shirt-(red)"]')
+    .click();
+  await page.locator('[data-test="remove-sauce-labs-bike-light"]').click();
+  await page.locator('[data-test="remove-sauce-labs-fleece-jacket"]').click();
+
+  await page.locator("#continue-shopping").click();
+
+  await expect(page.locator(".inventory_list")).toBeVisible();
 });
