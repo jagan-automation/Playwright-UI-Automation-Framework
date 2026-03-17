@@ -106,5 +106,5 @@ await login(page);
 
   await expect(page.locator('.inventory_list')).toBeVisible();
 
-  await page.pause();
+
 });
