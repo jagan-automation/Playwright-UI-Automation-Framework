@@ -233,5 +233,16 @@ await login(page);
   await page.locator("#cancel").click();
   await expect(page.locator(".inventory_list")).toBeVisible();
 
-  await page.pause();
+
+});
+
+test("sidebar: open and close", async ({ page }) => {
+await login(page);
+
+await page.locator("#react-burger-menu-btn").click();
+await expect(page.locator(".bm-menu-wrap")).toBeVisible();
+await page.locator("#react-burger-cross-btn").click();
+await expect(page.locator(".bm-menu-wrap")).not.toBeVisible();
+
+
 });
