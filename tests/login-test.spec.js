@@ -246,3 +246,21 @@ await expect(page.locator(".bm-menu-wrap")).not.toBeVisible();
 
 
 });
+
+test("side menu: options; all options should be visible and clickable", async ({ page }) => {
+
+  await login(page);
+
+  await page.locator("#react-burger-menu-btn").click();
+  await expect(page.locator(".bm-menu-wrap")).toBeVisible();
+  await page.locator("#inventory_sidebar_link").click();
+  await expect(page).toHaveURL("https://www.saucedemo.com/inventory.html");
+  await page.locator("#react-burger-cross-btn").click();
+  await page.locator("#react-burger-menu-btn").click();
+  await expect(page.locator(".bm-menu-wrap")).toBeVisible();
+  await page.locator("#logout_sidebar_link").click();
+
+  await login(page);
+
+
+});
